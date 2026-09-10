@@ -52,53 +52,6 @@ body {
   to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
-/* SPARKLINE */
-.sparkline {
-  width: 60px;
-  height: 20px;
-  display: block;
-}
-
-/* TREND ICONS */
-.trend-icon {
-  width: 16px;
-  height: 16px;
-  vertical-align: middle;
-  margin-right: 5px;
-}
-
-.trend-icon.up { color: #00d4aa; }
-.trend-icon.down { color: #ff6b6b; }
-
-/* MARKET FILTERS */
-.market-filters {
-  display: flex;
-  gap: 8px;
-}
-
-.market-filter {
-  background: #111816;
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 8px;
-  padding: 8px 16px;
-  color: #A5ADA9;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.market-filter:hover {
-  border-color: rgba(166,255,0,0.3);
-  color: #fff;
-}
-
-.market-filter.active {
-  background: #a6ff00;
-  border-color: #a6ff00;
-  color: #080d0c;
-  font-weight: 600;
-}
-
 /* FAQ SEARCH */
 .faq-search {
   width: 100%;
@@ -629,57 +582,6 @@ body {
   color: #A5ADA9;
 }
 
-/* MARKET */
-.market {
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-}
-
-.market-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.market-table-wrap {
-  overflow-x: auto;
-}
-
-.market-table {
-  width: 100%;
-  min-width: 860px;
-  border-collapse: collapse;
-}
-
-.market-table th {
-  text-align: left;
-  padding: 16px 20px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #A5ADA9;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-}
-
-.market-table td {
-  padding: 16px 20px;
-  font-size: 14px;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-}
-
-.market-table tr:hover td {
-  background: rgba(255,255,255,0.025);
-}
-
-.market-name {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.positive { color: #00d4aa; }
-.negative { color: #ff6b6b; }
-
 /* COIN ICONS */
 .coin-icon {
   width: 48px;
@@ -691,30 +593,27 @@ body {
   font-size: 22px;
   flex-shrink: 0;
   position: relative;
+  color: #fff;
   box-shadow:
     0 2px 4px rgba(0,0,0,0.3),
     inset 0 -3px 6px rgba(0,0,0,0.2),
     inset 0 3px 6px rgba(255,255,255,0.3);
 }
 
-.coin-icon.btc {
-  background: linear-gradient(135deg, #F7931A 0%, #d97b0a 100%);
-  color: #fff;
+.coin-icon.usd {
+  background: linear-gradient(135deg, #5cb85c 0%, #2e7d32 50%, #14532d 100%);
 }
 
-.coin-icon.eth {
-  background: linear-gradient(135deg, #8B9DC3 0%, #627EEA 50%, #4a5f9e 100%);
-  color: #fff;
+.coin-icon.eur {
+  background: linear-gradient(135deg, #5b8def 0%, #1e88e5 50%, #0d47a1 100%);
 }
 
 .coin-icon.usdt {
   background: linear-gradient(135deg, #2fbf8f 0%, #26A17B 50%, #1a7a5c 100%);
-  color: #fff;
 }
 
 .coin-icon.pln {
   background: linear-gradient(135deg, #e05a5a 0%, #D32F2F 50%, #a51f1f 100%);
-  color: #fff;
 }
 
 /* LOCATIONS */
@@ -1309,7 +1208,7 @@ body {
   .hero-title { font-size: 44px; }
   .why-grid { grid-template-columns: repeat(2, 1fr); }
   .directions-grid { grid-template-columns: repeat(2, 1fr); }
-    .how-timeline { flex-wrap: wrap; gap: 20px; }
+  .how-timeline { flex-wrap: wrap; gap: 20px; }
   .how-step-card { flex: 1 1 calc(50% - 20px); }
   .how-connector { display: none; }
   .benefits-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1360,6 +1259,7 @@ body {
   .directions-grid { grid-template-columns: 1fr; }
   .locations-grid { grid-template-columns: 1fr; }
 }
+
 
 @media (min-width: 1920px) {
   .header-inner,

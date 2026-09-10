@@ -11,12 +11,10 @@ import {
   X,
   Globe,
   Send,
-  TrendingUp,
-  TrendingDown,
   ArrowUp,
 } from 'lucide-react';
-import { SiBitcoin, SiEthereum, SiTether } from 'react-icons/si';
-import { FaMoneyBillWave } from 'react-icons/fa';
+import { SiTether } from 'react-icons/si';
+import { FaDollarSign, FaEuroSign, FaMoneyBillWave } from 'react-icons/fa';
 
 const TELEGRAM_URL = "https://t.me/+2ktARr9AH1Q4YjI0";
 
@@ -30,10 +28,10 @@ function TelegramIcon({ className }) {
 
 function CoinIcon({ type }) {
   switch(type) {
-    case 'BTC':
-      return <div className="coin-icon btc"><SiBitcoin /></div>;
-    case 'ETH':
-      return <div className="coin-icon eth"><SiEthereum /></div>;
+    case 'USD':
+      return <div className="coin-icon usd"><FaDollarSign /></div>;
+    case 'EUR':
+      return <div className="coin-icon eur"><FaEuroSign /></div>;
     case 'USDT':
       return <div className="coin-icon usdt"><SiTether /></div>;
     case 'PLN':
@@ -41,15 +39,6 @@ function CoinIcon({ type }) {
     default:
       return null;
   }
-}
-
-function Sparkline({ data, positive }) {
-  const points = data.map((v, i) => `${i * 10},${20 - v}`).join(' ');
-  return (
-    <svg viewBox="0 0 60 20" className="sparkline">
-      <polyline points={points} fill="none" stroke={positive ? '#00d4aa' : '#ff6b6b'} strokeWidth="1.5" />
-    </svg>
-  );
 }
 
 function AnimatedNumber({ value }) {
@@ -132,7 +121,6 @@ function App() {
   const [scrolled, setScrolled] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [faqSearch, setFaqSearch] = useState('');
-  const [marketFilter, setMarketFilter] = useState('ALL');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -147,7 +135,7 @@ function App() {
 
   const faqItems = [
     { q: "Почему стоит выбрать SWAP LIX?", a: "Мы предлагаем физический обмен криптовалют с личной встречей. Это гарантирует безопасность, конфиденциальность и лучшие курсы." },
-    { q: "Какие криптовалюты вы поддерживаете?", a: "BTC, ETH, USDT. Обмен производим на польские злотые и обратно." },
+    { q: "Какие валюты вы обмениваете?", a: "USDT на польские злотые, доллары и евро, а также обратный обмен." },
     { q: "Какие способы оплаты?", a: "Наличные при личной встрече. Мы не работаем с картами и онлайн-переводами." },
     { q: "Как происходит наличный обмен?", a: "Вы связываетесь с менеджером, согласовываете детали и приезжаете в офис. Обмен производится на месте." },
     { q: "Какой курс обмена?", a: "Актуальный курс узнавайте у менеджера в Telegram. Курс фиксируется до сделки." },
@@ -159,14 +147,6 @@ function App() {
   ];
 
   const filteredFaq = faqItems.filter(item => item.q.toLowerCase().includes(faqSearch.toLowerCase()));
-
-  const marketData = [
-    { name: "Bitcoin", ticker: "BTC", price: "$67,420", change: "+2.3%", positive: true, min: "$66,100", max: "$68,200", vol: "$32.5B", spark: [5,8,6,10,9,12,15] },
-    { name: "Ethereum", ticker: "ETH", price: "$3,520", change: "+1.8%", positive: true, min: "$3,410", max: "$3,580", vol: "$15.2B", spark: [8,6,9,7,11,10,14] },
-    { name: "Tether", ticker: "USDT", price: "$1.00", change: "0.0%", positive: true, min: "$0.999", max: "$1.001", vol: "$45.8B", spark: [10,10,10,10,10,10,10] }
-  ];
-
-  const filteredMarket = marketFilter === 'ALL' ? marketData : marketData.filter(m => m.ticker === marketFilter);
 
   const polandCities = ["Варшава", "Вроцлав", "Гданьск", "Гдыня", "Краков", "Лодзь", "Познань", "Щецин"];
 
@@ -315,55 +295,6 @@ function App() {
         </Reveal>
 
         <Reveal>
-        <section className="market" id="exchange">
-          <div className="section-inner">
-            <div className="eyebrow">БУДЬТЕ В ТРЕНДЕ</div>
-            <div className="market-header">
-              <h2 className="section-title">Рынок криптовалют</h2>
-              <div className="market-filters">
-                {['ALL', 'BTC', 'ETH', 'USDT'].map(f => (
-                  <button key={f} className={`market-filter ${marketFilter === f ? 'active' : ''}`} onClick={() => setMarketFilter(f)}>
-                    {f === 'ALL' ? 'Все' : f}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="market-table-wrap">
-              <table className="market-table">
-                <thead>
-                  <tr>
-                    <th>Название</th>
-                    <th>Цена</th>
-                    <th>Изменение (24ч)</th>
-                    <th>Мин (24ч)</th>
-                    <th>Макс (24ч)</th>
-                    <th>Объем (24ч)</th>
-                    <th>График</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredMarket.map((item, i) => (
-                    <tr key={i}>
-                      <td><div className="market-name"><CoinIcon type={item.ticker} /><span>{item.name}</span></div></td>
-                      <td>{item.price}</td>
-                      <td className={item.positive ? 'positive' : 'negative'}>
-                        {item.positive ? <TrendingUp className="trend-icon up" /> : <TrendingDown className="trend-icon down" />}
-                        {item.change}
-                      </td>
-                      <td>{item.min}</td>
-                      <td>{item.max}</td>
-                      <td>{item.vol}</td>
-                      <td><Sparkline data={item.spark} positive={item.positive} /></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-        </Reveal>
-
-        <Reveal>
         <section className="locations" id="locations">
           <div className="section-inner">
             <div className="eyebrow">ПРОВЕРЬТЕ ДОСТУПНОСТЬ</div>
@@ -390,15 +321,16 @@ function App() {
                 </div>
                 <div>
                   <div className="eyebrow">КОНТРОЛИРУЙТЕ СВОИ ФИНАНСЫ</div>
-                  <h2 className="cash-title">Обналичивайте BTC, ETH, USDT в удобном для вас месте</h2>
+                  <h2 className="cash-title">Обналичивайте USDT в удобном для вас месте</h2>
                   <p className="cash-desc">Легко конвертируйте криптовалюту в реальные деньги при личной встрече.</p>
                 </div>
               </div>
               <div className="cash-right">
                 <div className="cash-coins">
-                  <CoinIcon type="BTC" />
-                  <CoinIcon type="ETH" />
                   <CoinIcon type="USDT" />
+                  <CoinIcon type="USD" />
+                  <CoinIcon type="EUR" />
+                  <CoinIcon type="PLN" />
                 </div>
                 <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" className="btn-primary">
                   <TelegramIcon className="btn-icon" /> Связаться с менеджером
@@ -415,12 +347,12 @@ function App() {
             <div className="eyebrow">ОБМЕНЯЙТЕ БЕЗ ОГРАНИЧЕНИЙ</div>
             <h2 className="section-title">Доступные направления обмена</h2>
             <div className="directions-grid">
-              <ExchangeCard from="BTC" to="PLN" fromName="Bitcoin" toName="Польские злотые" />
-              <ExchangeCard from="ETH" to="PLN" fromName="Ethereum" toName="Польские злотые" />
               <ExchangeCard from="USDT" to="PLN" fromName="Tether" toName="Польские злотые" />
-              <ExchangeCard from="PLN" to="BTC" fromName="Польские злотые" toName="Bitcoin" />
-              <ExchangeCard from="PLN" to="ETH" fromName="Польские злотые" toName="Ethereum" />
+              <ExchangeCard from="USDT" to="USD" fromName="Tether" toName="Доллары" />
+              <ExchangeCard from="USDT" to="EUR" fromName="Tether" toName="Евро" />
               <ExchangeCard from="PLN" to="USDT" fromName="Польские злотые" toName="Tether" />
+              <ExchangeCard from="USD" to="USDT" fromName="Доллары" toName="Tether" />
+              <ExchangeCard from="EUR" to="USDT" fromName="Евро" toName="Tether" />
             </div>
           </div>
         </section>
@@ -564,10 +496,10 @@ function App() {
           <div className="footer-col">
             <h4>О криптовалюте</h4>
             <a href="#directions">Направления обменов</a>
-            <a href="#exchange">Курсы криптовалют</a>
+            <a href="#directions">Курсы криптовалют</a>
             <a href="#directions">Обмен USDT</a>
-            <a href="#directions">Обмен BTC</a>
-            <a href="#directions">Обмен ETH</a>
+            <a href="#directions">Обмен на PLN</a>
+            <a href="#directions">Обмен на USD</a>
           </div>
           <div className="footer-col">
             <h4>Полезное</h4>
